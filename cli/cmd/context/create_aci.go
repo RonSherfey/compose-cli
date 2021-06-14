@@ -18,6 +18,7 @@ package context
 
 import (
 	"context"
+	"github.com/docker/compose-cli/pkg/api"
 
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
@@ -25,7 +26,6 @@ import (
 	"github.com/docker/compose-cli/aci"
 	"github.com/docker/compose-cli/api/client"
 	"github.com/docker/compose-cli/api/context/store"
-	"github.com/docker/compose-cli/api/errdefs"
 )
 
 func init() {
@@ -58,7 +58,7 @@ func createAciCommand() *cobra.Command {
 
 func runCreateAci(ctx context.Context, contextName string, opts aci.ContextParams) error {
 	if contextExists(contextName) {
-		return errors.Wrapf(errdefs.ErrAlreadyExists, "context %s", contextName)
+		return errors.Wrapf(api.ErrAlreadyExists, "context %s", contextName)
 	}
 	contextData, description, err := getAciContextData(ctx, opts)
 	if err != nil {

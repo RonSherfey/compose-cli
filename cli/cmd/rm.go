@@ -19,6 +19,7 @@ package cmd
 import (
 	"context"
 	"fmt"
+	"github.com/docker/compose-cli/pkg/api"
 
 	"github.com/hashicorp/go-multierror"
 	"github.com/pkg/errors"
@@ -26,7 +27,6 @@ import (
 
 	"github.com/docker/compose-cli/api/client"
 	"github.com/docker/compose-cli/api/containers"
-	"github.com/docker/compose-cli/api/errdefs"
 	"github.com/docker/compose-cli/cli/formatter"
 )
 
@@ -63,9 +63,9 @@ func runRm(ctx context.Context, args []string, opts rmOpts) error {
 			Force: opts.force,
 		})
 		if err != nil {
-			if errdefs.IsForbiddenError(err) {
+			if api.IsForbiddenError(err) {
 				errs = multierror.Append(errs, fmt.Errorf("you cannot remove a running container %s. Stop the container before attempting removal or force remove", id))
-			} else if errdefs.IsNotFoundError(err) {
+			} else if api.IsNotFoundError(err) {
 				errs = multierror.Append(errs, fmt.Errorf("container %s not found", id))
 			} else {
 				errs = multierror.Append(errs, err)

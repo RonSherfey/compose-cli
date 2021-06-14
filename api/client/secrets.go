@@ -18,8 +18,8 @@ package client
 
 import (
 	"context"
+	"github.com/docker/compose-cli/pkg/api"
 
-	"github.com/docker/compose-cli/api/errdefs"
 	"github.com/docker/compose-cli/api/secrets"
 )
 
@@ -27,17 +27,17 @@ type secretsService struct {
 }
 
 func (s *secretsService) CreateSecret(context.Context, secrets.Secret) (string, error) {
-	return "", errdefs.ErrNotImplemented
+	return "", api.ErrNotImplemented
 }
 
 func (s *secretsService) InspectSecret(context.Context, string) (secrets.Secret, error) {
-	return secrets.Secret{}, errdefs.ErrNotImplemented
+	return secrets.Secret{}, api.ErrNotImplemented
 }
 
 func (s *secretsService) ListSecrets(context.Context) ([]secrets.Secret, error) {
-	return nil, errdefs.ErrNotImplemented
+	return nil, api.ErrNotImplemented
 }
 
 func (s *secretsService) DeleteSecret(context.Context, string, bool) error {
-	return errdefs.ErrNotImplemented
+	return api.ErrNotImplemented
 }

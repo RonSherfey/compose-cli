@@ -19,13 +19,13 @@ package cmd
 import (
 	"context"
 	"fmt"
+	"github.com/docker/compose-cli/pkg/api"
 
 	"github.com/hashicorp/go-multierror"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 
 	"github.com/docker/compose-cli/api/client"
-	"github.com/docker/compose-cli/api/errdefs"
 	"github.com/docker/compose-cli/cli/formatter"
 )
 
@@ -53,7 +53,7 @@ func runStart(ctx context.Context, args []string) error {
 	for _, id := range args {
 		err := c.ContainerService().Start(ctx, id)
 		if err != nil {
-			if errdefs.IsNotFoundError(err) {
+			if api.IsNotFoundError(err) {
 				errs = multierror.Append(errs, fmt.Errorf("container %s not found", id))
 			} else {
 				errs = multierror.Append(errs, err)

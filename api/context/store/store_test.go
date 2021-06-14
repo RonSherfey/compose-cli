@@ -18,14 +18,13 @@ package store
 
 import (
 	_ "crypto/sha256"
+	"github.com/docker/compose-cli/pkg/api"
 	"io/ioutil"
 	"os"
 	"testing"
 
 	"gotest.tools/v3/assert"
 	"gotest.tools/v3/assert/cmp"
-
-	"github.com/docker/compose-cli/api/errdefs"
 )
 
 func testStore(t *testing.T) Store {
@@ -49,7 +48,7 @@ func TestCreate(t *testing.T) {
 
 	err = s.Create("test", "test", "descrsiption", ContextMetadata{})
 	assert.Error(t, err, `context "test": already exists`)
-	assert.Assert(t, errdefs.IsAlreadyExistsError(err))
+	assert.Assert(t, api.IsAlreadyExistsError(err))
 }
 
 func TestGetEndpoint(t *testing.T) {
@@ -74,7 +73,7 @@ func TestGetUnknown(t *testing.T) {
 	meta, err := s.Get("unknown")
 	assert.Assert(t, cmp.Nil(meta))
 	assert.Error(t, err, `context "unknown": not found`)
-	assert.Assert(t, errdefs.IsNotFoundError(err))
+	assert.Assert(t, api.IsNotFoundError(err))
 }
 
 func TestGet(t *testing.T) {
@@ -99,7 +98,7 @@ func TestRemoveNotFound(t *testing.T) {
 	s := testStore(t)
 	err := s.Remove("notfound")
 	assert.Error(t, err, `context "notfound": not found`)
-	assert.Assert(t, errdefs.IsNotFoundError(err))
+	assert.Assert(t, api.IsNotFoundError(err))
 }
 
 func TestRemove(t *testing.T) {

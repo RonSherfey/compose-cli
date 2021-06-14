@@ -20,10 +20,10 @@ package kube
 
 import (
 	"fmt"
+	"github.com/docker/compose-cli/pkg/api"
 
 	"github.com/AlecAivazis/survey/v2/terminal"
 	"github.com/docker/compose-cli/api/context/store"
-	"github.com/docker/compose-cli/api/errdefs"
 	"github.com/docker/compose-cli/utils/prompt"
 
 	"github.com/docker/compose-cli/kube/resources"
@@ -55,7 +55,7 @@ func (cp ContextParams) CreateContextData() (interface{}, string, error) {
 		selected, err := user.Select("Select kubeconfig context", contexts)
 		if err != nil {
 			if err == terminal.InterruptErr {
-				return errdefs.ErrCanceled
+				return api.ErrCanceled
 			}
 			return err
 		}
@@ -93,7 +93,7 @@ func (cp ContextParams) CreateContextData() (interface{}, string, error) {
 		selected, err := user.Select("Create a Docker context using:", options)
 		if err != nil {
 			if err == terminal.InterruptErr {
-				return nil, "", errdefs.ErrCanceled
+				return nil, "", api.ErrCanceled
 			}
 			return nil, "", err
 		}

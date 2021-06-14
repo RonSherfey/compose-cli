@@ -18,13 +18,12 @@ package formatter
 
 import (
 	"fmt"
+	"github.com/docker/compose-cli/pkg/api"
 	"io"
 	"reflect"
 	"strings"
 
 	"github.com/pkg/errors"
-
-	"github.com/docker/compose-cli/api/errdefs"
 )
 
 // Print prints formatted lists in different formats
@@ -67,7 +66,7 @@ func Print(toJSON interface{}, format string, outWriter io.Writer, writerFn func
 			_, _ = fmt.Fprintln(outWriter, outJSON)
 		}
 	default:
-		return errors.Wrapf(errdefs.ErrParsingFailed, "format value %q could not be parsed", format)
+		return errors.Wrapf(api.ErrParsingFailed, "format value %q could not be parsed", format)
 	}
 	return nil
 }
